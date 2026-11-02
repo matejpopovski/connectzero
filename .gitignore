@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+_skbuild/
+*.so
+runs/
+data/tromp/
+.DS_Store

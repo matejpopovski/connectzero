@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ConnectZero Final</title>
+<style>
+:root {
+  --panel: #0c0e0d; --housing: #161a18; --rail: #2a302d; --dim: #5e6a64; --text: #d9dfda;
+  --amber: #ffb000; --amber-dim: #5a4010; --red: #ff4d3d; --green: #58d68d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: #050606; color: var(--text);
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  display: flex; justify-content: center; padding: 20px 16px;
+}
+main { width: min(780px, 100%); }
+.scoreboard {
+  background: var(--housing); border: 2px solid var(--rail); border-radius: 6px; padding: 14px;
+}
+.banner {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  letter-spacing: .22em; text-transform: uppercase; font-size: 12px; color: var(--dim);
+  margin-bottom: 10px;
+}
+.banner b { color: var(--amber); font-weight: 600; }
+.plates { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; }
+.plate {
+  background: var(--panel); border: 1px solid var(--rail); padding: 10px 14px; min-width: 0;
+}
+.plate.active { border-color: var(--amber); }
+.plate .seat { font-size: 11px; letter-spacing: .2em; color: var(--dim); }
+.plate .name { font-size: 20px; letter-spacing: .08em; white-space: nowrap; overflow: hidden; }
+.plate .tally { font-size: 13px; color: var(--dim); margin-top: 2px; }
+.plate.red .name { color: var(--red); }
+.plate.amber .name { color: var(--amber); }
+.clock {
+  background: var(--panel); border: 1px solid var(--rail); padding: 8px 16px; text-align: center;
+}
+.clock .label { font-size: 10px; letter-spacing: .24em; color: var(--dim); }
+.clock .digits {
+  font-size: 40px; line-height: 1.1; color: var(--amber);
+  text-shadow: 0 0 10px rgba(255, 176, 0, .55); font-variant-numeric: tabular-nums;
+}
+.ticker {
+  margin-top: 10px; background: var(--panel); border: 1px solid var(--rail); padding: 8px 12px;
+  color: var(--amber); letter-spacing: .08em; font-size: 14px; min-height: 36px;
+}
+.court { margin-top: 12px; background: var(--panel); border: 1px solid var(--rail); padding: 10px; }
+.row-label {
+  font-size: 10px; letter-spacing: .2em; color: var(--dim); margin: 6px 2px 4px;
+}
+.lane { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.board { touch-action: manipulation; }
+.column {
+  display: grid; grid-template-rows: repeat(6, 1fr); gap: 6px; padding: 0; background: none;
+  border: 0; border-radius: 4px; cursor: pointer;
+}
+.column:disabled { cursor: default; }
+.column:not(:disabled):hover .cell, .column:focus-visible .cell { background: #1b211e; }
+.column:focus-visible { outline: 1px solid var(--amber); }
+.cell {
+  aspect-ratio: 1; border-radius: 50%; background: #121513; border: 1px solid var(--rail);
+}
+.cell.p1 { background: var(--red); border-color: var(--red); box-shadow: 0 0 8px rgba(255, 77, 61, .5); }
+.cell.p2 { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 8px rgba(255, 176, 0, .5); }
+.cell.last { outline: 2px solid #fff; outline-offset: 1px; }
+.verdict {
+  text-align: center; font-size: 15px; padding: 5px 0; border: 1px solid var(--rail);
+  color: var(--dim); font-variant-numeric: tabular-nums; min-height: 30px;
+}
+.verdict.win { color: var(--green); border-color: var(--green); }
+.verdict.draw { color: var(--amber); border-color: var(--amber-dim); }
+.verdict.loss { color: var(--red); border-color: #5a2019; }
+.bar { height: 42px; display: flex; align-items: flex-end; border-bottom: 1px solid var(--rail); }
+.bar i { display: block; width: 100%; background: var(--amber); min-height: 0; }
+.bar-n { text-align: center; font-size: 11px; color: var(--dim); margin-top: 3px; }
+.controls {
+  margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  font-size: 12px; color: var(--dim);
+}
+button.action, select {
+  background: var(--panel); color: var(--text); border: 1px solid var(--rail); padding: 8px 12px;
+  font: inherit; letter-spacing: .08em; cursor: pointer;
+}
+button.action:hover { border-color: var(--amber); color: var(--amber); }
+.legend { margin-top: 10px; font-size: 12px; color: var(--dim); line-height: 1.6; }
+@media (max-width: 520px) {
+  .plate .name { font-size: 15px; }
+  .clock .digits { font-size: 30px; }
+  .verdict { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <section class="scoreboard" aria-label="Match scoreboard">
+    <div class="banner"><span><b>ConnectZero</b> Final</span><span id="referee-state">Referee: perfect solver</span></div>
+    <div class="plates">
+      <div class="plate red" id="plate-1">
+        <div class="seat">FIRST / RED</div>
+        <div class="name" id="name-1">YOU</div>
+        <div class="tally" id="tally-1">0 wins</div>
+      </div>
+      <div class="clock"><div class="label">MOVE</div><div class="digits" id="move-clock">00</div></div>
+      <div class="plate amber" id="plate-2">
+        <div class="seat">SECOND / AMBER</div>
+        <div class="name" id="name-2">AGENT</div>
+        <div class="tally" id="tally-2">0 wins</div>
+      </div>
+    </div>
+    <div class="ticker" id="ticker" role="status">Your move. Drop a stone in any column.</div>
+  </section>
+
+  <section class="court">
+    <div class="row-label">REFEREE: RESULT OF EACH COLUMN FOR THE SIDE TO MOVE</div>
+    <div class="lane" id="verdicts"></div>
+    <div class="row-label">BOARD</div>
+    <div class="lane board" id="board"></div>
+    <div class="row-label">AGENT: SEARCH VISITS ON ITS LAST MOVE</div>
+    <div class="lane" id="bars"></div>
+  </section>
+
+  <div class="controls">
+    <button class="action" id="new-game">NEW GAME</button>
+    <button class="action" id="swap-seats">SWAP SEATS</button>
+    <label>AGENT SEARCH
+      <select id="simulations">
+        <option value="50">50 visits</option>
+        <option value="200">200 visits</option>
+        <option value="800" selected>800 visits</option>
+        <option value="3200">3200 visits</option>
+      </select>
+    </label>
+  </div>
+  <p class="legend">
+    W, D and L are proved by the solver. The number after W or L counts how early the game ends:
+    higher means a faster finish. A dash means the position is too deep to prove within the
+    referee's node budget, which is normal for the first few moves.
+  </p>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const post = (path, body) => fetch(path, {
+  method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body),
+}).then((r) => r.json());
+
+const state = {moves: "", humanSeat: 1, position: null, tally: {human: 0, agent: 0, draw: 0},
+                busy: false, game: 0};
+
+function buildCourt() {
+  for (let c = 0; c < 7; c++) {
+    const v = document.createElement("div");
+    v.className = "verdict"; v.id = "verdict-" + c; v.textContent = " ";
+    $("verdicts").appendChild(v);
+
+    const col = document.createElement("button");
+    col.className = "column"; col.id = "col-" + c;
+    col.setAttribute("aria-label", "Column " + (c + 1));
+    col.addEventListener("click", () => humanMove(c));
+    for (let r = 5; r >= 0; r--) {
+      const cell = document.createElement("div");
+      cell.className = "cell"; cell.id = `cell-${c}-${r}`;
+      col.appendChild(cell);
+    }
+    $("board").appendChild(col);
+
+    const wrap = document.createElement("div");
+    wrap.innerHTML = `<div class="bar"><i id="bar-${c}" style="height:0"></i></div>
+                      <div class="bar-n" id="bar-n-${c}">0</div>`;
+    $("bars").appendChild(wrap);
+  }
+}
+
+function renderPosition() {
+  const p = state.position;
+  $("move-clock").textContent = String(p.ply).padStart(2, "0");
+  let last = null;
+  if (state.moves.length) {
+    const col = Number(state.moves.at(-1)) - 1;
+    last = [col, p.columns[col].filter(Boolean).length - 1];
+  }
+  for (let c = 0; c < 7; c++) {
+    for (let r = 0; r < 6; r++) {
+      const owner = p.columns[c][r];
+      const cell = $(`cell-${c}-${r}`);
+      cell.className = "cell" + (owner ? " p" + owner : "") +
+        (last && last[0] === c && last[1] === r ? " last" : "");
+    }
+    $("col-" + c).disabled = state.busy || !p.legal.includes(c) || p.to_move !== state.humanSeat;
+  }
+  $("plate-1").classList.toggle("active", !p.winner && !p.draw && p.to_move === 1);
+  $("plate-2").classList.toggle("active", !p.winner && !p.draw && p.to_move === 2);
+  $("name-1").textContent = state.humanSeat === 1 ? "YOU" : "AGENT";
+  $("name-2").textContent = state.humanSeat === 2 ? "YOU" : "AGENT";
+  const humanTally = `${state.tally.human} wins`;
+  const agentTally = `${state.tally.agent} wins`;
+  $("tally-1").textContent = state.humanSeat === 1 ? humanTally : agentTally;
+  $("tally-2").textContent = state.humanSeat === 2 ? humanTally : agentTally;
+}
+
+function renderReferee(result) {
+  for (let c = 0; c < 7; c++) {
+    const el = $("verdict-" + c);
+    el.className = "verdict"; el.textContent = "-";
+    if (result.over) { el.textContent = " "; continue; }
+    if (!result.proved) continue;
+    const s = result.scores[c];
+    if (s === null) { el.textContent = " "; continue; }
+    if (s > 0) { el.classList.add("win"); el.textContent = "W" + s; }
+    else if (s < 0) { el.classList.add("loss"); el.textContent = "L" + -s; }
+    else { el.classList.add("draw"); el.textContent = "D"; }
+  }
+  $("referee-state").textContent = result.over ? "Referee: game over"
+    : result.proved ? "Referee: position proved" : "Referee: too deep to prove";
+}
+
+function renderVisits(visits) {
+  const top = Math.max(...visits, 1);
+  visits.forEach((v, c) => {
+    $("bar-" + c).style.height = (100 * v / top) + "%";
+    $("bar-n-" + c).textContent = v;
+  });
+}
+
+async function update() {
+  state.position = await post("/api/position", {moves: state.moves});
+  renderPosition();
+  const game = state.game;
+  const position = state.position;
+  post("/api/referee", {moves: state.moves}).then((result) => {
+    if (game === state.game && position.moves === state.moves) renderReferee(result);
+  });
+  if (position.winner || position.draw) {
+    finish(position);
+  } else if (position.to_move !== state.humanSeat) {
+    await agentMove();
+  } else {
+    $("ticker").textContent = "Your move.";
+  }
+}
+
+function finish(p) {
+  if (p.draw) {
+    state.tally.draw++;
+    $("ticker").textContent = `FULL TIME: DRAW after ${p.ply} moves.`;
+  } else if (p.winner === state.humanSeat) {
+    state.tally.human++;
+    $("ticker").textContent = `FULL TIME: YOU WIN in ${p.ply} moves.`;
+  } else {
+    state.tally.agent++;
+    $("ticker").textContent = `FULL TIME: AGENT WINS in ${p.ply} moves.`;
+  }
+  renderPosition();
+}
+
+async function agentMove() {
+  state.busy = true; renderPosition();
+  const simulations = Number($("simulations").value);
+  $("ticker").textContent = `Agent searching ${simulations} visits...`;
+  const game = state.game;
+  const answer = await post("/api/agent", {moves: state.moves, simulations});
+  if (game !== state.game) return;
+  renderVisits(answer.visits);
+  state.moves += String(answer.column + 1);
+  state.busy = false;
+  await update();
+}
+
+function humanMove(col) {
+  const p = state.position;
+  if (state.busy || !p || !p.legal.includes(col) || p.to_move !== state.humanSeat) return;
+  state.moves += String(col + 1);
+  update();
+}
+
+function newGame() {
+  state.game++; state.moves = ""; state.busy = false;
+  renderVisits([0, 0, 0, 0, 0, 0, 0]);
+  update();
+}
+
+$("new-game").addEventListener("click", newGame);
+$("swap-seats").addEventListener("click", () => { state.humanSeat = 3 - state.humanSeat; newGame(); });
+buildCourt();
+newGame();
+</script>
+</body>
+</html>

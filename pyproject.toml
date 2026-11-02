@@ -1,0 +1,56 @@
+[build-system]
+requires = ["scikit-build-core==0.11.6", "pybind11==3.0.1"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "connectzero"
+version = "0.1.0"
+description = "AlphaZero for Connect 4, graded move by move against a perfect solver."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=2.0,<3",
+    "torch>=2.5,<3",
+    "matplotlib>=3.9,<4",
+]
+
+[project.scripts]
+connectzero-demo = "connectzero.demo:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.8", "clang-format==19.1.7"]
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+cmake.build-type = "Release"
+wheel.packages = ["src/connectzero"]
+wheel.exclude = ["**/__pycache__"]
+
+[tool.uv]
+default-groups = ["dev"]
+cache-keys = [
+    { file = "pyproject.toml" },
+    { file = "CMakeLists.txt" },
+    { file = "cpp/*" },
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "NPY"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["slow: takes more than a few seconds"]

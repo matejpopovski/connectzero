@@ -1,0 +1,50 @@
+{
+  "seed": 2026,
+  "per_stratum": 300,
+  "opening_quota": 200,
+  "threads": 8,
+  "strata": {
+    "opening": {
+      "candidates_available": 17336,
+      "candidates_solved": 300,
+      "kept": 200,
+      "seconds": 352.93055916699814
+    },
+    "early": {
+      "candidates_available": 54107,
+      "candidates_solved": 1200,
+      "kept": 300,
+      "seconds": 100.88480470800278
+    },
+    "middle": {
+      "candidates_available": 45269,
+      "candidates_solved": 1200,
+      "kept": 300,
+      "seconds": 2.6746405409940053
+    },
+    "late": {
+      "candidates_available": 28220,
+      "candidates_solved": 1200,
+      "kept": 300,
+      "seconds": 0.09296399999584537
+    },
+    "endgame": {
+      "candidates_available": 12399,
+      "candidates_solved": 1200,
+      "kept": 300,
+      "seconds": 0.012407832997268997
+    },
+    "final": {
+      "candidates_available": 4127,
+      "candidates_solved": 1200,
+      "kept": 300,
+      "seconds": 0.005621208001684863
+    }
+  },
+  "outcomes": {
+    "-1": 591,
+    "0": 395,
+    "1": 714
+  },
+  "value_contested": 946
+}

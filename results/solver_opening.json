@@ -1,0 +1,20 @@
+{
+  "root_score": 1,
+  "root_seconds": 101.83451908300049,
+  "root_nodes": 1205110184,
+  "root_nodes_per_second": 11834004.764315447,
+  "first_move_scores": [
+    -2,
+    -1,
+    0,
+    1,
+    0,
+    -1,
+    -2
+  ],
+  "first_move_seconds_with_warm_table": 409.39395041600073,
+  "first_move_nodes_with_warm_table": 4586433582,
+  "table_entries": 67108864,
+  "threads": 1,
+  "platform": "Darwin arm64"
+}
