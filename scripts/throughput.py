@@ -66,6 +66,18 @@ def self_play_rate(
     }
 
 
+def warm_rate(*settings) -> dict:
+    """Runs a configuration twice and keeps the second pass.
+
+    The Metal backend compiles a graph for each new batch shape, so a first pass measures
+    mostly compilation and depends on what ran before it. The same seed replays the same
+    shapes, so the second pass measures the engine. The first pass is kept for comparison.
+    """
+    cold = self_play_rate(*settings)
+    warm = self_play_rate(*settings)
+    return warm | {"cold_evaluations_per_second": cold["evaluations_per_second"]}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--devices", nargs="+", default=["cpu"])
@@ -91,7 +103,7 @@ def main() -> None:
 
     # The engine alone, with a trivial evaluator: what the C++ side can sustain.
     report["engine_only"] = [
-        self_play_rate(UniformEvaluator(), 200, 256, 256, 4, threads) for threads in (1, 2, 4, 8)
+        warm_rate(UniformEvaluator(), 200, 256, 256, 4, threads) for threads in (1, 2, 4, 8)
     ]
     print(json.dumps(report["engine_only"], indent=1), flush=True)
 
@@ -103,13 +115,17 @@ def main() -> None:
         rows = []
         for concurrency, leaves, games in grid:
             count = max(concurrency, games // 4) if device == "cpu" else games
-            row = self_play_rate(evaluator, 100, count, concurrency, leaves, 4)
+            row = warm_rate(evaluator, 100, count, concurrency, leaves, 4)
             rows.append(row)
             print(device, concurrency, leaves, round(row["evaluations_per_second"]), flush=True)
         report["devices"][device] = rows
 
     best = max(args.devices, key=lambda d: report["devices"][d][-1]["evaluations_per_second"])
     rows = report["devices"][best]
+    evaluator = Evaluator(PolicyValueNet(NetConfig(args.blocks, args.filters)), best)
+    report["search_threads_with_network"] = [
+        warm_rate(evaluator, 100, 768, 512, 4, threads) for threads in (1, 2, 4, 8)
+    ]
     report["batching_speedup"] = {
         "device": best,
         "unbatched": rows[0]["evaluations_per_second"],

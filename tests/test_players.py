@@ -7,7 +7,9 @@ from connectzero._engine import (
     Rng,
     Seat,
     Solver,
+    TranspositionTable,
     alphabeta_move,
+    analyze_many,
     perfect_move,
     random_move,
     rollout_mcts_move,
@@ -90,3 +92,15 @@ def test_perfect_player_is_never_beaten_from_a_drawn_or_won_seat() -> None:
         Seat.perfect(), Seat.tactical(), [], len(openings) * 2, 1.5, seed=1, openings=openings[:30]
     )
     assert score.losses == 0
+
+
+def test_a_warmed_table_is_reused_by_later_solvers() -> None:
+    table = TranspositionTable(22)
+    boards = [Board.from_moves(line) for line in random_lines(np.random.default_rng(4), 12, 4)]
+    first = analyze_many(boards, threads=2, table=table)
+    warm = Solver(table)
+    assert [warm.analyze(b) for b in boards] == first.tolist()
+    cold = Solver(22)
+    for board in boards:
+        cold.analyze(board)
+    assert warm.nodes < cold.nodes / 2

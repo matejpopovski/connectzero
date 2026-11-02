@@ -1,0 +1,34 @@
+{
+  "command": "python -m connectzero.supervise --stall 420 -- --run runs/main --minutes 42 --device mps --torch-threads 2 --mcts-threads 4",
+  "code_commit_at_launch": "156e123",
+  "hardware": "Apple M3 Max, 36 GB, shared with other jobs",
+  "device": "mps",
+  "network": {
+    "blocks": 6,
+    "filters": 64,
+    "parameters": 452844
+  },
+  "generations": 59,
+  "wall_clock_minutes": 42.067627338866686,
+  "self_play_games": 29500,
+  "self_play_positions": 919021,
+  "self_play_evaluations": 54455629,
+  "self_play_seconds": 1176.6237943739761,
+  "train_steps": 14330,
+  "promotions": 33,
+  "rejections": 26,
+  "best_generation": 54,
+  "watchdog_restarts": 0,
+  "self_play_evals_per_second": {
+    "min": 22363.88199848754,
+    "median": 65706.86455233413,
+    "max": 81387.69129288284
+  },
+  "contention": {
+    "samples_every_30s": 85,
+    "samples_with_another_gpu_job_running": 48,
+    "share": 0.5647058823529412,
+    "mean_load_average": 12.71270588235294,
+    "note": "Another project ran an evaluation job on the same machine for this share of the run. It started about 35 seconds after training; the GPU was checked idle at launch."
+  }
+}

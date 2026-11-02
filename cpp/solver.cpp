@@ -173,11 +173,10 @@ std::optional<MoveScores> Solver::analyze(const Board& board, bool weak, std::in
 namespace {
 
 template <typename Result, typename Work>
-std::vector<Result> over_boards(const std::vector<Board>& boards, int threads, int log2_entries,
-                                Work work) {
+std::vector<Result> over_boards(const std::vector<Board>& boards, int threads,
+                                const std::shared_ptr<TranspositionTable>& table, Work work) {
     std::vector<Result> out(boards.size());
     const int workers = std::max(1, std::min<int>(threads, static_cast<int>(boards.size())));
-    auto table = std::make_shared<TranspositionTable>(log2_entries);
     std::vector<std::unique_ptr<Solver>> solvers;
     for (int worker = 0; worker < workers; ++worker) {
         solvers.push_back(std::make_unique<Solver>(table));
@@ -190,17 +189,17 @@ std::vector<Result> over_boards(const std::vector<Board>& boards, int threads, i
 }  // namespace
 
 std::vector<MoveScores> analyze_many(const std::vector<Board>& boards, int threads, bool weak,
-                                     int log2_entries) {
+                                     std::shared_ptr<TranspositionTable> table) {
     return over_boards<MoveScores>(
-        boards, threads, log2_entries,
+        boards, threads, table,
         [weak](Solver& solver, const Board& board) { return *solver.analyze(board, weak); });
 }
 
 std::vector<int> solve_many(const std::vector<Board>& boards, int threads, bool weak,
-                            int log2_entries) {
-    return over_boards<int>(
-        boards, threads, log2_entries,
-        [weak](Solver& solver, const Board& board) { return *solver.solve(board, weak); });
+                            std::shared_ptr<TranspositionTable> table) {
+    return over_boards<int>(boards, threads, table, [weak](Solver& solver, const Board& board) {
+        return *solver.solve(board, weak);
+    });
 }
 
 }  // namespace cz

@@ -120,8 +120,12 @@ PYBIND11_MODULE(_engine, m) {
         },
         py::arg("current"), py::arg("occupied"));
 
+    py::class_<TranspositionTable, std::shared_ptr<TranspositionTable>>(m, "TranspositionTable")
+        .def(py::init<int>(), py::arg("log2_entries"));
+
     py::class_<Solver>(m, "Solver")
         .def(py::init<int>(), py::arg("log2_entries") = 23)
+        .def(py::init<std::shared_ptr<TranspositionTable>>(), py::arg("table"))
         .def(
             "solve",
             [](Solver& solver, const Board& board, bool weak, std::int64_t budget) {
@@ -150,11 +154,13 @@ PYBIND11_MODULE(_engine, m) {
 
     m.def(
         "analyze_many",
-        [](const std::vector<Board>& boards, int threads, bool weak, int log2_entries) {
+        [](const std::vector<Board>& boards, int threads, bool weak, int log2_entries,
+           std::shared_ptr<TranspositionTable> table) {
             std::vector<MoveScores> scores;
             {
                 py::gil_scoped_release nogil;
-                scores = analyze_many(boards, threads, weak, log2_entries);
+                if (!table) table = std::make_shared<TranspositionTable>(log2_entries);
+                scores = analyze_many(boards, threads, weak, table);
             }
             const auto rows = static_cast<py::ssize_t>(scores.size());
             py::array_t<std::int8_t> out({rows, py::ssize_t{kWidth}});
@@ -167,16 +173,18 @@ PYBIND11_MODULE(_engine, m) {
             return out;
         },
         py::arg("boards"), py::arg("threads") = 1, py::arg("weak") = false,
-        py::arg("log2_entries") = 23);
+        py::arg("log2_entries") = 23, py::arg("table") = nullptr);
 
     m.def(
         "solve_many",
-        [](const std::vector<Board>& boards, int threads, bool weak, int log2_entries) {
+        [](const std::vector<Board>& boards, int threads, bool weak, int log2_entries,
+           std::shared_ptr<TranspositionTable> table) {
             py::gil_scoped_release nogil;
-            return solve_many(boards, threads, weak, log2_entries);
+            if (!table) table = std::make_shared<TranspositionTable>(log2_entries);
+            return solve_many(boards, threads, weak, table);
         },
         py::arg("boards"), py::arg("threads") = 1, py::arg("weak") = false,
-        py::arg("log2_entries") = 23);
+        py::arg("log2_entries") = 23, py::arg("table") = nullptr);
 
     py::class_<Rng>(m, "Rng").def(py::init<std::uint64_t>(), py::arg("seed") = 0);
     m.def("random_move", &random_move, py::arg("board"), py::arg("rng"));
@@ -311,7 +319,8 @@ PYBIND11_MODULE(_engine, m) {
         .def(py::init([](Seat seat_a, Seat seat_b, int num_games, int concurrency,
                          int leaves_per_tree, int threads, std::uint64_t seed, SearchParams search,
                          int temperature_plies, bool share_tree, bool record_samples,
-                         std::vector<std::string> openings, int solver_log2_entries) {
+                         std::vector<std::string> openings,
+                         std::shared_ptr<TranspositionTable> solver_table) {
                  PoolParams params;
                  params.seats = {seat_a, seat_b};
                  params.num_games = num_games;
@@ -324,14 +333,14 @@ PYBIND11_MODULE(_engine, m) {
                  params.share_tree = share_tree;
                  params.record_samples = record_samples;
                  params.openings = std::move(openings);
-                 params.solver_log2_entries = solver_log2_entries;
+                 params.solver_table = std::move(solver_table);
                  return std::make_unique<GamePool>(std::move(params));
              }),
              py::arg("seat_a"), py::arg("seat_b"), py::arg("num_games"), py::arg("concurrency"),
              py::arg("leaves_per_tree") = 1, py::arg("threads") = 1, py::arg("seed") = 0,
              py::arg("search") = SearchParams{}, py::arg("temperature_plies") = 0,
              py::arg("share_tree") = false, py::arg("record_samples") = false,
-             py::arg("openings") = std::vector<std::string>{}, py::arg("solver_log2_entries") = 22)
+             py::arg("openings") = std::vector<std::string>{}, py::arg("solver_table") = nullptr)
         .def("collect",
              [](GamePool& pool) {
                  const LeafBatch* batch = nullptr;

@@ -1,0 +1,12 @@
+{
+  "dataset": "Tromp, J. (1995). Connect-4. UCI ML Repository, doi:10.24432/C59P43",
+  "licence": "CC BY 4.0",
+  "dataset_sha256": "063152e6eadbb424c7ef4645df76e493a43812edd9c992400983da4fa54f8cba",
+  "limit": 0,
+  "rows_in_dataset": 67557,
+  "rows_checked": 67557,
+  "mismatches": 0,
+  "seconds": 6816.653341249999,
+  "threads": 3,
+  "mismatch_examples": []
+}
