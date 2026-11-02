@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import threading
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import numpy as np
@@ -35,6 +36,9 @@ class Match:
         self.c_puct = config["c_puct"]
         self.solver = Solver(24)
         self.solver_budget = solver_budget
+        # A proof can take seconds, and the agent's reply must not wait for it, so requests
+        # run on their own threads and only the solver itself is serialised.
+        self.solver_lock = threading.Lock()
 
     def position(self, moves: str) -> dict:
         board = Board.from_moves(moves)
@@ -61,7 +65,8 @@ class Match:
         board = Board.from_moves(moves)
         if board.is_over():
             return {"scores": None, "proved": False, "over": True}
-        scores = self.solver.analyze(board, budget=self.solver_budget)
+        with self.solver_lock:
+            scores = self.solver.analyze(board, budget=self.solver_budget)
         if scores is None:
             return {"scores": None, "proved": False, "over": False}
         return {
@@ -131,7 +136,7 @@ def main() -> None:
     parser.add_argument("--solver-budget", type=int, default=30_000_000)
     args = parser.parse_args()
     torch.set_num_threads(4)
-    server = HTTPServer(
+    server = ThreadingHTTPServer(
         ("127.0.0.1", args.port), make_handler(Match(args.weights, args.solver_budget))
     )
     print(f"Open http://127.0.0.1:{args.port}", flush=True)

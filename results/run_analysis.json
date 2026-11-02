@@ -1,0 +1,110 @@
+{
+  "gating": {
+    "rejected_generations": 26,
+    "promoted_generations": 33,
+    "candidate_minus_gated_search_value_points": {
+      "mean": -0.13823385916408815,
+      "stdev": 0.485098023687582,
+      "best": 0.8456659619450413,
+      "worst": -1.374207188160681,
+      "candidate_better_share": 0.23076923076923078
+    },
+    "candidate_minus_gated_raw_value_points": {
+      "mean": 0.5122784192551628,
+      "stdev": 1.1831960470397531
+    },
+    "last_promotion_generation": 54
+  },
+  "curve": [
+    {
+      "generation": 1,
+      "games": 500,
+      "minutes": 1.4502603541666759,
+      "search_value": 0.8150105708245243,
+      "search_strict": 0.7441176470588236,
+      "raw_value": 0.5317124735729387,
+      "raw_strict": 0.45,
+      "first_player_score": 0.551,
+      "draw_rate": 0.074,
+      "mean_game_length": 23.49
+    },
+    {
+      "generation": 10,
+      "games": 5000,
+      "minutes": 8.084179645849993,
+      "search_value": 0.8636363636363636,
+      "search_strict": 0.7911764705882353,
+      "raw_value": 0.6955602536997886,
+      "raw_strict": 0.5952941176470589,
+      "first_player_score": 0.677,
+      "draw_rate": 0.122,
+      "mean_game_length": 31.332
+    },
+    {
+      "generation": 20,
+      "games": 10000,
+      "minutes": 19.518805729866653,
+      "search_value": 0.8858350951374208,
+      "search_strict": 0.81,
+      "raw_value": 0.7452431289640592,
+      "raw_strict": 0.6458823529411765,
+      "first_player_score": 0.7,
+      "draw_rate": 0.248,
+      "mean_game_length": 33.764
+    },
+    {
+      "generation": 30,
+      "games": 15000,
+      "minutes": 25.79423167361662,
+      "search_value": 0.9080338266384778,
+      "search_strict": 0.8235294117647058,
+      "raw_value": 0.7674418604651163,
+      "raw_strict": 0.6658823529411765,
+      "first_player_score": 0.663,
+      "draw_rate": 0.194,
+      "mean_game_length": 31.682
+    },
+    {
+      "generation": 40,
+      "games": 20000,
+      "minutes": 33.02085606319997,
+      "search_value": 0.9175475687103594,
+      "search_strict": 0.8247058823529412,
+      "raw_value": 0.7970401691331924,
+      "raw_strict": 0.6747058823529412,
+      "first_player_score": 0.675,
+      "draw_rate": 0.33,
+      "mean_game_length": 35.898
+    },
+    {
+      "generation": 50,
+      "games": 25000,
+      "minutes": 37.99626404584997,
+      "search_value": 0.9175475687103594,
+      "search_strict": 0.8288235294117647,
+      "raw_value": 0.8107822410147991,
+      "raw_strict": 0.6911764705882353,
+      "first_player_score": 0.833,
+      "draw_rate": 0.082,
+      "mean_game_length": 30.444
+    },
+    {
+      "generation": 59,
+      "games": 29500,
+      "minutes": 42.067627338866686,
+      "search_value": 0.9175475687103594,
+      "search_strict": 0.8235294117647058,
+      "raw_value": 0.8086680761099366,
+      "raw_strict": 0.6952941176470588,
+      "first_player_score": 0.884,
+      "draw_rate": 0.052,
+      "mean_game_length": 28.738
+    }
+  ],
+  "phases": {
+    "self_play_minutes": 19.610396572899603,
+    "optimiser_minutes": 8.977117343734061,
+    "arena_minutes": 7.040824302733139,
+    "grading_minutes": 6.436112957716977
+  }
+}

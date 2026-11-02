@@ -79,7 +79,7 @@ def optimal_rate_figure(metrics: list[dict], random_floor: dict) -> None:
         ax.annotate(
             f"{search[-1] * 100:.1f}",
             (games[-1], search[-1]),
-            xytext=(-4, -14),
+            xytext=(0, 5),
             textcoords="offset points",
             ha="right",
             color=TEXT,
@@ -93,16 +93,16 @@ def optimal_rate_figure(metrics: list[dict], random_floor: dict) -> None:
     for ax in axes[:, 0]:
         ax.set_ylabel("value kept, % of positions")
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper right", ncol=3, bbox_to_anchor=(0.985, 0.985))
+    fig.legend(handles, labels, loc="upper left", ncol=3, bbox_to_anchor=(0.005, 0.945))
     fig.suptitle(
         "Moves that keep the game-theoretic result, scored by the solver",
         x=0.012,
-        y=0.97,
+        y=0.985,
         ha="left",
         color=LAMP,
         fontsize=12,
     )
-    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.tight_layout(rect=(0, 0, 1, 0.9))
     fig.savefig(DOCS / "optimal_rate.png", dpi=150)
     plt.close(fig)
 
@@ -118,19 +118,11 @@ def training_figure(metrics: list[dict]) -> None:
 
     scores = np.array([m["arena"]["score"] for m in metrics])
     promoted = np.array([m["arena"]["promoted"] for m in metrics])
-    axes[2].axhline(0.55, color=MUTED, linestyle=(0, (4, 3)), linewidth=1.2)
-    axes[2].annotate(
-        "gate 55%",
-        (games[-1], 0.55),
-        xytext=(0, 4),
-        textcoords="offset points",
-        ha="right",
-        color=MUTED,
-    )
-    axes[2].scatter(games[~promoted], scores[~promoted], s=26, color=BLUE, label="rejected")
+    axes[2].axhline(0.55, color=MUTED, linestyle=(0, (4, 3)), linewidth=1.2, label="55% gate")
     axes[2].scatter(games[promoted], scores[promoted], s=26, color=AMBER, label="promoted")
-    axes[2].set_title("Candidate score against the gated net")
-    axes[2].legend(loc="lower right")
+    axes[2].scatter(games[~promoted], scores[~promoted], s=26, color=BLUE, label="rejected")
+    axes[2].set_title("Candidate score vs gated net")
+    axes[2].legend(loc="upper right")
     for ax in axes:
         ax.set_xlabel("self-play games (thousands)")
         ax.grid(axis="y")
@@ -141,16 +133,20 @@ def training_figure(metrics: list[dict]) -> None:
 
 def throughput_figure(report: dict) -> None:
     fig, ax = plt.subplots(figsize=(7.5, 3.8))
-    colors = {"mps": AMBER, "cpu": BLUE}
-    names = {"mps": "Metal GPU (MPS)", "cpu": "CPU, 8 torch threads"}
-    for device, rows in report["devices"].items():
+    series = [
+        ("mps", "evaluations_per_second", AMBER, "solid", "Metal GPU, warm"),
+        ("mps", "cold_evaluations_per_second", AMBER, (0, (4, 3)), "Metal GPU, first pass"),
+        ("cpu", "evaluations_per_second", BLUE, "solid", "CPU, 8 torch threads"),
+    ]
+    for device, field, color, style, label in series:
+        rows = report["devices"][device]
         batches = [r["mean_batch"] for r in rows]
-        rates = [r["evaluations_per_second"] for r in rows]
-        ax.plot(batches, rates, color=colors[device], marker="o", markersize=7, label=names[device])
+        rates = [r[field] for r in rows]
+        ax.plot(batches, rates, color=color, linestyle=style, marker="o", markersize=7, label=label)
         ax.annotate(
             f"{rates[-1]:,.0f}/s",
             (batches[-1], rates[-1]),
-            xytext=(-6, 7),
+            xytext=(-2, -16),
             textcoords="offset points",
             ha="right",
             color=TEXT,
@@ -167,10 +163,10 @@ def throughput_figure(report: dict) -> None:
 
 
 def record_cell(entry: dict) -> str:
-    return f"{entry['wins']:>3}-{entry['draws']:<2}-{entry['losses']:<3}"
+    return f"{entry['wins']}-{entry['draws']}-{entry['losses']}"
 
 
-def scoreboard_figure(tournament: dict, grades: dict, simulations: int) -> None:
+def scoreboard_figure(tournament: dict, grades: dict, ceiling: dict, simulations: int) -> None:
     opponents = [
         ("random", "RANDOM"),
         ("tactical", "TACTICAL"),
@@ -180,7 +176,7 @@ def scoreboard_figure(tournament: dict, grades: dict, simulations: int) -> None:
         ("rollout-10k", "ROLLOUT MCTS 10K"),
         ("perfect", "PERFECT SOLVER"),
     ]
-    fig = plt.figure(figsize=(9, 4.7))
+    fig = plt.figure(figsize=(9, 5.1))
     ax = fig.add_axes((0.02, 0.03, 0.96, 0.94))
     ax.set_facecolor(PANEL)
     ax.set_xlim(0, 100)
@@ -207,7 +203,7 @@ def scoreboard_figure(tournament: dict, grades: dict, simulations: int) -> None:
     ax.text(97, header_y, "95% WILSON", color=MUTED, fontsize=9, ha="right")
     ax.plot([3, 97], [78, 78], color=RAIL, linewidth=1)
 
-    y = 72
+    y = 72.5
     for key, label in opponents:
         entry = tournament[f"network_{simulations}_vs_{key}"]
         ax.text(3, y, label, color=TEXT, fontsize=12)
@@ -215,18 +211,35 @@ def scoreboard_figure(tournament: dict, grades: dict, simulations: int) -> None:
         ax.text(72, y, f"{entry['score'] * 100:.1f}", color=LAMP, fontsize=14, ha="right")
         low, high = entry["wilson_low"] * 100, entry["wilson_high"] * 100
         ax.text(97, y, f"{low:.1f} - {high:.1f}", color=MUTED, fontsize=10, ha="right")
-        y -= 8.2
+        y -= 7.4
 
-    ax.plot([3, 97], [13, 13], color=RAIL, linewidth=1)
+    ax.plot([3, 97], [18, 18], color=RAIL, linewidth=1)
     graded = grades[f"network_{simulations}"]
+    empty = tournament[f"network_{simulations}_vs_perfect_from_empty"]
     ax.text(
         3,
-        5,
-        f"SOLVER AUDIT  value kept {graded['value_rate'] * 100:.1f}%"
-        f"   top score {graded['strict_rate'] * 100:.1f}%"
-        f"   {graded['positions']} stratified positions",
+        12.5,
+        f"FROM THE EMPTY BOARD, MOVING FIRST vs PERFECT: {empty['first_wins']} WINS "
+        f"{empty['draws']} DRAW OF {empty['first_games']}",
         color=TEXT,
         fontsize=10,
+    )
+    ax.text(
+        3,
+        7,
+        "PERFECT SOLVER ROW STARTS FROM ALL 49 TWO-PLY OPENINGS. FLAWLESS PLAY THERE: "
+        f"{ceiling['ceiling_wins']}-{ceiling['ceiling_draws']}-{ceiling['ceiling_losses']}",
+        color=MUTED,
+        fontsize=9,
+    )
+    ax.text(
+        3,
+        2,
+        f"SOLVER AUDIT  value kept {graded['value_rate'] * 100:.1f}%"
+        f"   top score {graded['strict_rate'] * 100:.1f}%"
+        f"   {graded['positions']} positions",
+        color=MUTED,
+        fontsize=9,
     )
     fig.savefig(DOCS / "scoreboard.png", dpi=150)
     plt.close(fig)
@@ -242,6 +255,7 @@ def main() -> None:
     scoreboard_figure(
         json.loads((RESULTS / "tournament.json").read_text()),
         grades,
+        json.loads((RESULTS / "perfect_ceiling.json").read_text()),
         simulations=800,
     )
 

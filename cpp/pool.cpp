@@ -65,9 +65,11 @@ GamePool::GamePool(PoolParams params) : params_(std::move(params)) {
     const bool needs_solver = params_.seats[0].kind == Seat::Kind::Perfect ||
                               params_.seats[1].kind == Seat::Kind::Perfect;
     if (needs_solver) {
-        auto table = std::make_shared<TranspositionTable>(params_.solver_log2_entries);
+        if (!params_.solver_table) {
+            params_.solver_table = std::make_shared<TranspositionTable>(22);
+        }
         for (int worker = 0; worker < params_.threads; ++worker) {
-            solvers_.push_back(std::make_unique<Solver>(table));
+            solvers_.push_back(std::make_unique<Solver>(params_.solver_table));
         }
     }
     for (auto& slot : slots_) start_game(*slot, next_game_.fetch_add(1));

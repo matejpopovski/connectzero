@@ -1,0 +1,701 @@
+{
+  "random_expected": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.34378586529749317,
+    "strict_rate": 0.27103221288515406,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.3163265306122448,
+        "strict_rate": 0.21928571428571422
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.3312852022529441,
+        "strict_rate": 0.21634920634920632
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.3249559082892416,
+        "strict_rate": 0.22238095238095232
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.3246132848043676,
+        "strict_rate": 0.24768253968253967
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.3448493683187561,
+        "strict_rate": 0.28523809523809524
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.41336451247165534,
+        "strict_rate": 0.4180079365079365
+      }
+    }
+  },
+  "network_raw": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8086680761099366,
+    "strict_rate": 0.6952941176470588,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.8571428571428571,
+        "strict_rate": 0.71
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.8172043010752689,
+        "strict_rate": 0.65
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.808641975308642,
+        "strict_rate": 0.7066666666666667
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.7579617834394905,
+        "strict_rate": 0.6666666666666666
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.8231292517006803,
+        "strict_rate": 0.6733333333333333
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.7976190476190477,
+        "strict_rate": 0.77
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.6526610644257703,
+        "value_rate": 0.8753501400560224
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.7670886075949367,
+        "value_rate": 0.7670886075949367
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.6988155668358714,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "network_50": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8837209302325582,
+    "strict_rate": 0.7852941176470588,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.8650793650793651,
+        "strict_rate": 0.715
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.8387096774193549,
+        "strict_rate": 0.6933333333333334
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.8888888888888888,
+        "strict_rate": 0.7766666666666666
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.8726114649681529,
+        "strict_rate": 0.7833333333333333
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9251700680272109,
+        "strict_rate": 0.8266666666666667
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.9166666666666666,
+        "strict_rate": 0.8933333333333333
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8151260504201681,
+        "value_rate": 0.9481792717086834
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.8151898734177215,
+        "value_rate": 0.8151898734177215
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.7292724196277496,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "network_200": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.9175475687103594,
+    "strict_rate": 0.8235294117647058,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.8650793650793651,
+        "strict_rate": 0.715
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.8440860215053764,
+        "strict_rate": 0.71
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.9197530864197531,
+        "strict_rate": 0.8166666666666667
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9363057324840764,
+        "strict_rate": 0.8666666666666667
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9659863945578231,
+        "strict_rate": 0.87
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.9761904761904762,
+        "strict_rate": 0.9266666666666666
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8403361344537815,
+        "value_rate": 0.9607843137254902
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.8734177215189873,
+        "value_rate": 0.8734177215189873
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.7698815566835872,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "network_800": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.9260042283298098,
+    "strict_rate": 0.821764705882353,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.8888888888888888,
+        "strict_rate": 0.715
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.8709677419354839,
+        "strict_rate": 0.7366666666666667
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.9135802469135802,
+        "strict_rate": 0.82
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9363057324840764,
+        "strict_rate": 0.8566666666666667
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9591836734693877,
+        "strict_rate": 0.8466666666666667
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.9880952380952381,
+        "strict_rate": 0.92
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8165266106442577,
+        "value_rate": 0.9621848739495799
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.8911392405063291,
+        "value_rate": 0.8911392405063291
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.7817258883248731,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "network_3200": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.9439746300211417,
+    "strict_rate": 0.8364705882352941,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.9206349206349206,
+        "strict_rate": 0.735
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.8817204301075269,
+        "strict_rate": 0.7333333333333333
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.9320987654320988,
+        "strict_rate": 0.8466666666666667
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9554140127388535,
+        "strict_rate": 0.89
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9863945578231292,
+        "strict_rate": 0.8733333333333333
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.9940476190476191,
+        "strict_rate": 0.9066666666666666
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8235294117647058,
+        "value_rate": 0.9719887955182073
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.9164556962025316,
+        "value_rate": 0.9164556962025316
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.7986463620981388,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "tactical": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.6289640591966174,
+    "strict_rate": 0.6170588235294118,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.42063492063492064,
+        "strict_rate": 0.365
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.4731182795698925,
+        "strict_rate": 0.4
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.5123456790123457,
+        "strict_rate": 0.5266666666666666
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.6751592356687898,
+        "strict_rate": 0.6666666666666666
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.8367346938775511,
+        "strict_rate": 0.79
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.8452380952380952,
+        "strict_rate": 0.87
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.6330532212885154,
+        "value_rate": 0.7619047619047619
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.5417721518987342,
+        "value_rate": 0.5417721518987342
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.6480541455160744,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "alphabeta-4": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8657505285412262,
+    "strict_rate": 0.8352941176470589,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.7063492063492064,
+        "strict_rate": 0.58
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.7473118279569892,
+        "strict_rate": 0.6933333333333334
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.8827160493827161,
+        "strict_rate": 0.8366666666666667
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9299363057324841,
+        "strict_rate": 0.8933333333333333
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9523809523809523,
+        "strict_rate": 0.9466666666666667
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 0.9642857142857143,
+        "strict_rate": 0.9766666666666667
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8501400560224089,
+        "value_rate": 0.9341736694677871
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.7974683544303798,
+        "value_rate": 0.7974683544303798
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.8426395939086294,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "alphabeta-8": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8985200845665962,
+    "strict_rate": 0.8823529411764706,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.7777777777777778,
+        "strict_rate": 0.675
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.7956989247311828,
+        "strict_rate": 0.76
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.8888888888888888,
+        "strict_rate": 0.8633333333333333
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9554140127388535,
+        "strict_rate": 0.9433333333333334
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9659863945578231,
+        "strict_rate": 0.9833333333333333
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 1.0,
+        "strict_rate": 1.0
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8879551820728291,
+        "value_rate": 0.9495798319327731
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.8481012658227848,
+        "value_rate": 0.8481012658227848
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.8984771573604061,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "rollout-1k": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8657505285412262,
+    "strict_rate": 0.8035294117647059,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.6904761904761905,
+        "strict_rate": 0.57
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.7580645161290323,
+        "strict_rate": 0.6166666666666667
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.8703703703703703,
+        "strict_rate": 0.8166666666666667
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.8980891719745223,
+        "strict_rate": 0.87
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9591836734693877,
+        "strict_rate": 0.94
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 1.0,
+        "strict_rate": 0.93
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8151260504201681,
+        "value_rate": 0.927170868347339
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.810126582278481,
+        "value_rate": 0.810126582278481
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.7851099830795262,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "rollout-10k": {
+    "positions": 1700,
+    "value_positions": 946,
+    "value_rate": 0.8847780126849895,
+    "strict_rate": 0.8347058823529412,
+    "strata": {
+      "opening": {
+        "positions": 200,
+        "value_positions": 126,
+        "value_rate": 0.6825396825396826,
+        "strict_rate": 0.605
+      },
+      "early": {
+        "positions": 300,
+        "value_positions": 186,
+        "value_rate": 0.7956989247311828,
+        "strict_rate": 0.69
+      },
+      "middle": {
+        "positions": 300,
+        "value_positions": 162,
+        "value_rate": 0.8950617283950617,
+        "strict_rate": 0.8433333333333334
+      },
+      "late": {
+        "positions": 300,
+        "value_positions": 157,
+        "value_rate": 0.9235668789808917,
+        "strict_rate": 0.9066666666666666
+      },
+      "endgame": {
+        "positions": 300,
+        "value_positions": 147,
+        "value_rate": 0.9863945578231292,
+        "strict_rate": 0.9633333333333334
+      },
+      "final": {
+        "positions": 300,
+        "value_positions": 168,
+        "value_rate": 1.0,
+        "strict_rate": 0.9233333333333333
+      }
+    },
+    "by_result": {
+      "won": {
+        "positions": 714,
+        "strict_rate": 0.8515406162464986,
+        "value_rate": 0.9481792717086834
+      },
+      "drawn": {
+        "positions": 395,
+        "strict_rate": 0.8177215189873418,
+        "value_rate": 0.8177215189873418
+      },
+      "lost": {
+        "positions": 591,
+        "strict_rate": 0.8257191201353637,
+        "value_rate": 1.0
+      }
+    }
+  },
+  "strata": [
+    [
+      "opening",
+      4,
+      7
+    ],
+    [
+      "early",
+      8,
+      13
+    ],
+    [
+      "middle",
+      14,
+      19
+    ],
+    [
+      "late",
+      20,
+      25
+    ],
+    [
+      "endgame",
+      26,
+      31
+    ],
+    [
+      "final",
+      32,
+      39
+    ]
+  ],
+  "opening": {
+    "simulations": 800,
+    "first_move_visits": [
+      0,
+      1,
+      0,
+      796,
+      0,
+      1,
+      1
+    ],
+    "first_move_value": 0.787568211555481
+  }
+}

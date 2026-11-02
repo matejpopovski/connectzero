@@ -6,7 +6,7 @@ import math
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 
-from connectzero._engine import GamePool, GameResult, SearchParams, Seat
+from connectzero._engine import GamePool, GameResult, SearchParams, Seat, TranspositionTable
 from connectzero.search import Evaluate, drive
 
 
@@ -68,7 +68,7 @@ def play_match(
     leaves_per_tree: int = 8,
     temperature_plies: int = 0,
     openings: Sequence[str] = (),
-    solver_log2_entries: int = 22,
+    solver_table: TranspositionTable | None = None,
 ) -> tuple[MatchScore, list[GameResult]]:
     pool = GamePool(
         seat_a,
@@ -81,7 +81,7 @@ def play_match(
         search=SearchParams(c_puct=c_puct),
         temperature_plies=temperature_plies,
         openings=list(openings),
-        solver_log2_entries=solver_log2_entries,
+        solver_table=solver_table,
     )
     drive(pool, evaluators)
     results = list(pool.results)

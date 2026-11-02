@@ -38,7 +38,10 @@ struct PoolParams {
     int temperature_plies = 0;  // sample proportional to visits for this many plies
     bool share_tree = false;    // both seats reuse one tree (self-play)
     bool record_samples = false;
-    int solver_log2_entries = 22;  // shared by all workers, so repeat positions are instant
+    // Shared by all workers and by any other pool given the same table. A slow solve
+    // stalls the whole batch, so callers warm this with analyze_many on the likely early
+    // positions, where all workers can run at once, before a match starts.
+    std::shared_ptr<TranspositionTable> solver_table;
     std::array<Seat, 2> seats{};
     std::vector<std::string> openings;  // game i starts from openings[i % size]
 };

@@ -104,8 +104,8 @@ constexpr int immediate_win_score(int moves) { return (kCells + 1 - moves) / 2; 
 // Solves many positions on worker threads. Workers share one table, so related
 // positions (the normal case for a benchmark or a database) build on each other.
 std::vector<MoveScores> analyze_many(const std::vector<Board>& boards, int threads, bool weak,
-                                     int log2_entries);
+                                     std::shared_ptr<TranspositionTable> table);
 std::vector<int> solve_many(const std::vector<Board>& boards, int threads, bool weak,
-                            int log2_entries);
+                            std::shared_ptr<TranspositionTable> table);
 
 }  // namespace cz
