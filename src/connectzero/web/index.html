@@ -15,7 +15,7 @@ body {
   font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   display: flex; justify-content: center; padding: 20px 16px;
 }
-main { width: min(780px, 100%); }
+main { width: min(600px, 100%); }
 .scoreboard {
   background: var(--housing); border: 2px solid var(--rail); border-radius: 6px; padding: 14px;
 }
@@ -58,7 +58,8 @@ main { width: min(780px, 100%); }
   border: 0; border-radius: 4px; cursor: pointer;
 }
 .column:disabled { cursor: default; }
-.column:not(:disabled):hover .cell, .column:focus-visible .cell { background: #1b211e; }
+.column:not(:disabled):hover .cell:not(.p1):not(.p2),
+.column:focus-visible .cell:not(.p1):not(.p2) { background: #1b211e; }
 .column:focus-visible { outline: 1px solid var(--amber); }
 .cell {
   aspect-ratio: 1; border-radius: 50%; background: #121513; border: 1px solid var(--rail);
@@ -90,6 +91,7 @@ button.action:hover { border-color: var(--amber); color: var(--amber); }
   .plate .name { font-size: 15px; }
   .clock .digits { font-size: 30px; }
   .verdict { font-size: 12px; }
+  .banner { letter-spacing: .12em; }
 }
 </style>
 </head>
@@ -225,9 +227,17 @@ function renderVisits(visits) {
   });
 }
 
+function clearReferee(text) {
+  for (let c = 0; c < 7; c++) {
+    $("verdict-" + c).className = "verdict";
+    $("verdict-" + c).textContent = text;
+  }
+}
+
 async function update() {
   state.position = await post("/api/position", {moves: state.moves});
   renderPosition();
+  clearReferee("...");
   const game = state.game;
   const position = state.position;
   post("/api/referee", {moves: state.moves}).then((result) => {
